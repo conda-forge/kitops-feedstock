@@ -11,7 +11,7 @@ source:
   target_directory: src
 
 build:
-  number: 0
+  number: 1
   script:
     - cd src
     - go-licenses save . --save_path ../library_licenses
@@ -66,11 +66,7 @@ tests:
 about:
   homepage: https://kitops.ml
   summary: An open source MLOps tool for packaging, versioning, and sharing AI/ML projects
-  description: |
-    KitOps is an open source tool that allows to package, version, share, and
-    deploy AI/ML models and their associated artifacts using familiar DevOps practices and
-    OCI standards. It facilitates collaborative work on self-hosted AI/ML models and makes
-    sharing, automating, and deploying those models as simple as managing containerized apps. 
+  description: "KitOps is an open source tool that allows to package, version, share, and\ndeploy AI/ML models and their associated artifacts using familiar DevOps practices and\nOCI standards. It facilitates collaborative work on self-hosted AI/ML models and makes\nsharing, automating, and deploying those models as simple as managing containerized apps. \n"
   license: Apache-2.0
   license_file:
     - src/LICENSE
