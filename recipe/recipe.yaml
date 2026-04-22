@@ -11,7 +11,7 @@ source:
   target_directory: src
 
 build:
-  number: 1
+  number: 2
   script:
     - cd src
     - go-licenses save . --save_path ../library_licenses
@@ -19,7 +19,7 @@ build:
       then:
         - BUILD_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
         - SHORT_COMMIT_HASH="$(curl -s "https://api.github.com/repos/kitops-ml/kitops/commits/v${{ version }}" | jq -r '.sha' | cut -c 1-7)"
-        - go build -v -o $PREFIX/bin/kit -ldflags="-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=${BUILD_TIME} -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=${SHORT_COMMIT_HASH}"
+        - go build -v -o $PREFIX/bin/kit -ldflags="-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=${BUILD_TIME} -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=${SHORT_COMMIT_HASH}" -trimpath .
         # generate shell completions
         - mkdir -p $PREFIX/share/bash-completion/completions $PREFIX/share/fish/vendor_completions.d $PREFIX/share/zsh/site-functions
         - $PREFIX/bin/kit completion bash > $PREFIX/share/bash-completion/completions/kit
@@ -29,7 +29,7 @@ build:
       then:
         - for /f "usebackq delims=" %%T in (`powershell -Command "[DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')"`) do set BUILD_TIME=%%T
         - for /f "usebackq delims=" %%T in (`powershell -Command "((Invoke-RestMethod 'https://api.github.com/repos/kitops-ml/kitops/commits/v${{ version }}').sha).Substring(0, 7)"`) do set SHORT_COMMIT_HASH=%%T
-        - go build -v -o %LIBRARY_BIN%\kit.exe -ldflags="-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=%BUILD_TIME% -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=%SHORT_COMMIT_HASH%"
+        - go build -v -o %LIBRARY_BIN%\kit.exe -ldflags="-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=%BUILD_TIME% -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=%SHORT_COMMIT_HASH%" -trimpath .
         # generate shell completions
         - mkdir %LIBRARY_PREFIX%\share\bash-completion\completions
         - mkdir %LIBRARY_PREFIX%\share\fish\vendor_completions.d
