@@ -1,5 +1,5 @@
 context:
-  version: "1.15.0"
+  version: "1.16.0"
 
 package:
   name: kitops
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/kitops-ml/kitops/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 956a3d526eb45848e66a49089fcc7867c7df4c2e019a3126219e8f1d7163f7e5
+  sha256: 380e8586c376327591cca9fd510eacdd9bbd7050144c491cb302c369224b9283
 
 build:
   number: 0
@@ -21,12 +21,7 @@ build:
       - if: win
         then: let exe_name = 'kit.exe'
         else: let exe_name = 'kit'
-      - ^go build
-        -o ($prefix)/bin/($exe_name)
-        -v
-        -ldflags=$'-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=($build_time) -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=($short_commit_hash)'
-        -trimpath
-        .
+      - ^go build -o ($prefix)/bin/($exe_name) -v -ldflags=$'-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=($build_time) -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=($short_commit_hash)' -trimpath .
       - ^go-licenses save . --save_path=library_licenses
       # generate shell completions
       - if: build_platform == host_platform
