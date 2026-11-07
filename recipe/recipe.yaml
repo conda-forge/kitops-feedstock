@@ -10,7 +10,7 @@ source:
   sha256: 02607ae4ede9e5d4ce439bedf6dd68a79f981fc5bb25e7f64054f52d393a518b
 
 build:
-  number: 0
+  number: 1
   script:
     interpreter: nu
     content:
@@ -21,7 +21,7 @@ build:
       - if: win
         then: let exe_name = 'kit.exe'
         else: let exe_name = 'kit'
-      - ^go build -o ($prefix)/bin/($exe_name) -v -ldflags=$'-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=($build_time) -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=($short_commit_hash)' -trimpath .
+      - ^go build -o ($prefix)/bin/($exe_name) -v -ldflags=$'-s -w -X github.com/kitops-ml/kitops/pkg/lib/constants.Version=${{ version }} -X github.com/kitops-ml/kitops/pkg/lib/constants.BuildTime=($build_time) -X github.com/kitops-ml/kitops/pkg/lib/constants.GitCommit=($short_commit_hash)' .
       - ^go-licenses save . --save_path=library_licenses
       # generate shell completions
       - if: build_platform == host_platform
